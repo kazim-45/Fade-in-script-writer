@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FADE IN — Professional Screenwriting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Bebas+Neue&family=Crimson+Pro:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════
+   DESIGN SYSTEM
+═══════════════════════════════ */
+:root{
+  --bg:#0d0d0d;--surface:#161616;--surface2:#1e1e1e;
+  --page-bg:#f6f5ef;--page-text:#111;
+  --accent:#c9a84c;--accent-dim:#7a6030;
+  --text:#d8d6cc;--text-dim:#666;
+  --border:#252525;--border2:#2e2e2e;
+  --red:#c85050;--amber:#d4903a;--blue:#5a8fc8;--green:#5a9a5a;
+  --nav-h:50px;--elb-h:40px;--top-h:90px;--sb-h:28px;
+  --left-w:234px;--right-w:252px;--page-w:780px;
+}
+.light{
+  --bg:#d5d5d3;--surface:#e4e4e2;--surface2:#ececea;
+  --page-bg:#fff;--page-text:#111;
+  --accent:#1a3d6b;--accent-dim:#2a5d9b;
+  --text:#1a1a1a;--text-dim:#777;--border:#c5c5c5;--border2:#b8b8b8;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{height:100%}
+body{font-family:'Courier Prime',monospace;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;transition:background .25s,color .25s;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent-dim)}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;background:#080808;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;z-index:9999;animation:splashOut 3s ease 1.1s forwards;pointer-events:none}
+#splash .sl{font-family:'Bebas Neue',cursive;font-size:72px;color:var(--accent);letter-spacing:14px;animation:slIn .8s ease both}
+#splash .ss{font-family:'Crimson Pro',serif;font-weight:200;font-size:15px;color:#555;letter-spacing:6px;text-transform:uppercase;animation:slIn .8s .3s ease both}
+@keyframes slIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes splashOut{0%{opacity:1}80%{opacity:1}100%{opacity:0;pointer-events:none}}
+
+/* NAVBAR */
+#nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:10px;z-index:900;transition:background .25s,opacity .3s}
+#logo{font-family:'Bebas Neue',cursive;font-size:22px;color:var(--accent);letter-spacing:4px;display:flex;align-items:center;gap:7px;white-space:nowrap;cursor:default;user-select:none}
+#logo svg{width:22px;height:22px;flex-shrink:0;overflow:visible}
+#script-title{flex:1;text-align:center;background:transparent;border:none;outline:none;font-family:'Crimson Pro',serif;font-weight:300;font-size:15px;color:var(--text);letter-spacing:1px;cursor:text;min-width:0}
+#script-title:focus{background:var(--surface2);border-radius:4px;padding:2px 10px}
+.n-group{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.n-stat{font-size:10.5px;color:var(--text-dim);background:var(--surface2);border:1px solid var(--border);padding:3px 8px;border-radius:3px;white-space:nowrap}
+.n-btn{background:transparent;border:1px solid var(--border);color:var(--text);padding:4px 10px;border-radius:4px;cursor:pointer;font-size:11px;font-family:'Courier Prime',monospace;transition:all .15s;white-space:nowrap;line-height:1.4}
+.n-btn:hover{border-color:var(--accent);color:var(--accent)}
+.n-btn.gold{background:var(--accent);border-color:var(--accent);color:#000;font-weight:700}
+.n-btn.gold:hover{opacity:.85}
+.n-btn.active{color:var(--accent);border-color:var(--accent)}
+
+/* ═══════════════════════════
+   ELEMENT TYPE BAR
+═══════════════════════════ */
+#el-bar{
+  position:fixed;top:var(--nav-h);left:0;right:0;height:var(--elb-h);
+  background:var(--surface2);border-bottom:1px solid var(--border);
+  display:flex;align-items:stretch;justify-content:center;
+  z-index:890;transition:background .25s;
+}
+/* FIX 3: mousedown+preventDefault so focus never leaves editor */
+.elb-item{
+  display:flex;align-items:center;gap:5px;padding:0 16px;
+  cursor:pointer;font-family:'Courier Prime',monospace;font-size:11px;
+  color:var(--text-dim);letter-spacing:.3px;
+  border-right:1px solid var(--border);
+  border-bottom:2px solid transparent;
+  transition:all .12s;user-select:none;white-space:nowrap;
+  -webkit-user-select:none;
+}
+.elb-item:first-child{border-left:1px solid var(--border)}
+.elb-item:hover{color:var(--text);background:var(--surface)}
+.elb-item.on{color:var(--accent);background:var(--surface);font-weight:700;border-bottom-color:var(--accent)}
+.elb-k{font-size:8px;opacity:.5;background:var(--border2);border-radius:2px;padding:1px 4px;letter-spacing:0}
+.elb-item.on .elb-k{opacity:.8}
+
+/* APP SHELL */
+#app{display:flex;height:100vh;padding-top:var(--top-h);padding-bottom:var(--sb-h);overflow:hidden}
+
+/* SIDEBARS */
+.sidebar{display:flex;flex-direction:column;overflow:hidden;transition:width .22s cubic-bezier(.4,0,.2,1),min-width .22s cubic-bezier(.4,0,.2,1),background .25s;background:var(--surface);border-color:var(--border);position:relative;flex-shrink:0}
+#left-sb{width:var(--left-w);min-width:var(--left-w);border-right:1px solid var(--border)}
+#right-sb{width:var(--right-w);min-width:var(--right-w);border-left:1px solid var(--border)}
+/* Fix 1: !important overrides ID-selector specificity so closed always collapses */
+.sidebar.closed{width:0!important;min-width:0!important;overflow:hidden}
+.sb-tabs{display:flex;border-bottom:1px solid var(--border)}
+.sb-tab{flex:1;padding:7px 2px;font-size:9.5px;text-align:center;cursor:pointer;color:var(--text-dim);border-bottom:2px solid transparent;transition:all .15s;letter-spacing:.8px;user-select:none}
+.sb-tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.sb-panel{display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0}
+.sb-panel.on{display:flex}
+.sb-list{flex:1;overflow-y:auto;padding:4px 0}
+.sb-item{padding:5px 12px;font-size:11px;cursor:pointer;color:var(--text);border-left:2px solid transparent;transition:all .1s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5}
+.sb-item:hover{background:var(--surface2);border-left-color:var(--accent)}
+.sb-item.is-scene{color:var(--accent);font-size:10px;font-weight:700;letter-spacing:.3px}
+.sb-empty{padding:20px 14px;font-size:11px;color:var(--text-dim);text-align:center;font-style:italic;line-height:1.8}
+#notes-ta{flex:1;background:transparent;border:none;outline:none;padding:12px;color:var(--text);font-family:'Courier Prime',monospace;font-size:11.5px;resize:none;line-height:1.6}
+#notes-ta::placeholder{color:var(--text-dim)}
+/* DOCTOR */
+.doc-hdr{padding:10px 12px;border-bottom:1px solid var(--border);font-size:10.5px;font-weight:700;color:var(--accent);display:flex;align-items:center;justify-content:space-between;letter-spacing:.5px}
+.doc-badge{background:var(--accent);color:#000;border-radius:10px;padding:1px 7px;font-size:9.5px}
+.doc-item{background:var(--surface2);border-left:3px solid var(--accent-dim);border-radius:0 4px 4px 0;padding:7px 9px;margin-bottom:7px;cursor:pointer;transition:all .15s}
+.doc-item:hover{border-left-color:var(--accent);transform:translateX(2px)}
+.doc-item.warn{border-left-color:var(--amber)}.doc-item.err{border-left-color:var(--red)}.doc-item.info{border-left-color:var(--blue)}
+.doc-title{font-size:10px;font-weight:700;color:var(--text);margin-bottom:3px}
+.doc-msg{font-size:10px;color:var(--text-dim);line-height:1.45}
+.doc-ln{font-size:9px;color:var(--text-dim);margin-top:4px;opacity:.7}
+
+/* SIDEBAR TOGGLES */
+.sb-toggle{position:fixed;top:calc(var(--top-h) + 10px);background:var(--surface);border:1px solid var(--border);color:var(--text-dim);width:18px;height:50px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:8px;transition:all .15s,left .22s,right .22s;z-index:700}
+.sb-toggle:hover{background:var(--accent);color:#000;border-color:var(--accent)}
+#lt{border-radius:0 5px 5px 0}#rt{border-radius:5px 0 0 5px}
+
+/* EDITOR ZONE — Fix 2: neutral bg so no dark void below the page */
+#ed-wrap{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  background:#2a2a2a;  /* dark mode: dark grey, not pitch black */
+  transition:background .25s;display:flex;justify-content:center;
+  padding:40px 24px 120px;scroll-behavior:smooth;
+}
+.light #ed-wrap{ background:#c8c8c6; }  /* light mode: warm mid-grey */
+#page-wrap{width:var(--page-w);max-width:100%;display:flex;flex-direction:column;gap:0}
+
+/* ═══════════════════════════
+   PAGE SHELL — A4 proportions, no dark void
+═══════════════════════════ */
+.page-shell{
+  background:var(--page-bg);width:100%;
+  /* Fix 2: A4 at 96dpi = 794×1123px. min-height ensures a full page always shows */
+  min-height:1123px;
+  padding:72px 84px 72px 120px;
+  box-shadow:0 4px 28px rgba(0,0,0,.45),0 1px 4px rgba(0,0,0,.2);
+  transition:background .25s;position:relative;cursor:text;
+}
+/* Page 2, 3… are rendered as separate shells */
+.page-shell + .page-shell{margin-top:32px}
+.page-num-label{position:absolute;top:32px;right:72px;font-family:'Courier Prime',monospace;font-size:10px;color:#aaa}
+#editor{outline:none;caret-color:var(--page-text)}
+
+/* ═══════════════════════════
+   SCREENPLAY LINES
+═══════════════════════════ */
+.L{position:relative;min-height:1.3em;color:var(--page-text);font-family:'Courier Prime',monospace;font-size:12pt;line-height:1.65;outline:none;white-space:pre-wrap;word-break:break-word}
+
+/* FIX 2: placeholder only on .first-line (assigned in JS), rotating */
+.L.first-line:empty::before{content:attr(data-ph);color:#b8b6ae;pointer-events:none;font-style:italic}
+
+.L[data-t="sh"]{text-transform:uppercase;font-weight:700;margin-top:1.65em;margin-bottom:.33em}
+.L[data-t="sh"]:first-child{margin-top:0}
+.L[data-t="ac"]{margin-bottom:.33em}
+.L[data-t="ch"]{text-transform:uppercase;margin-left:210px;margin-top:1.1em;margin-bottom:0}
+.L[data-t="pa"]{font-style:italic;margin-left:156px;margin-right:156px;margin-bottom:0}
+.L[data-t="di"]{margin-left:96px;margin-right:96px;margin-bottom:0}
+.L[data-t="tr"]{text-transform:uppercase;text-align:right;margin-top:1.1em;margin-bottom:1.1em}
+.L.revised{background:rgba(100,165,255,.08);border-left:3px solid #64a5ff;padding-left:4px}
+/* Page break visual — cleaner rule between A4 pages */
+.pg-break{
+  width:calc(100% + 204px);margin-left:-120px;
+  border:none;border-top:2px solid #c8c6be;
+  margin-top:28px;margin-bottom:24px;position:relative;
+  background:transparent;
+}
+.pg-break::before{
+  content:'— PAGE ' attr(data-pg) ' —';
+  position:absolute;left:50%;top:-9px;transform:translateX(-50%);
+  font-size:9px;color:#b0afa8;font-family:'Courier Prime',monospace;
+  background:var(--page-bg);padding:0 10px;white-space:nowrap;
+  letter-spacing:1.5px;
+}
+
+/* STATUS BAR */
+#sb{position:fixed;bottom:0;left:0;right:0;height:var(--sb-h);background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:14px;z-index:800;font-size:10.5px;color:var(--text-dim);transition:background .25s}
+.sb-stat strong{color:var(--accent);font-weight:700}
+#sv{transition:color .3s}#sv.ok{color:var(--green)}#sv.no{color:var(--amber)}
+#ticker{margin-left:auto;font-style:italic;max-width:380px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;transition:opacity .4s}
+
+/* ═══════════════════════
+   FIX 4: SELECTION FORMATTING TOOLBAR
+═══════════════════════ */
+#fmt-bar{
+  position:fixed;z-index:8000;display:none;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:6px;padding:3px 4px;gap:1px;
+  box-shadow:0 4px 20px rgba(0,0,0,.6);
+  align-items:center;
+  animation:fmtIn .12s ease;
+}
+#fmt-bar.on{display:flex}
+@keyframes fmtIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.fmt-btn{
+  background:transparent;border:1px solid transparent;color:var(--text);
+  width:28px;height:26px;border-radius:4px;cursor:pointer;
+  font-family:'Courier Prime',monospace;font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .1s;
+}
+.fmt-btn:hover{background:var(--surface2);border-color:var(--border2)}
+.fmt-btn.on{background:var(--accent);color:#000;border-color:var(--accent)}
+.fmt-btn b{font-weight:900;font-size:14px}
+.fmt-btn i{font-style:italic;font-size:13px}
+.fmt-div{width:1px;height:18px;background:var(--border2);margin:0 2px}
+.fmt-btn.clr{font-size:10px;width:auto;padding:0 7px;letter-spacing:.3px}
+
+/* AUTOCOMPLETE */
+#ac{position:fixed;background:var(--surface);border:1px solid var(--accent);border-radius:6px;z-index:6000;display:none;overflow:hidden;box-shadow:0 8px 36px rgba(0,0,0,.65);min-width:220px;max-height:220px;overflow-y:auto}
+.ac-label{padding:5px 12px 4px;font-size:9px;color:var(--text-dim);letter-spacing:1.2px;background:var(--surface2);border-bottom:1px solid var(--border)}
+.ac-item{padding:8px 14px;cursor:pointer;font-size:12px;font-family:'Courier Prime',monospace;color:var(--text);transition:background .1s;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ac-item:last-child{border:none}
+.ac-item:hover,.ac-item.on{background:var(--accent);color:#000}
+.ac-item .ac-sub{font-size:9px;opacity:.5;white-space:nowrap}
+.ac-item:hover .ac-sub,.ac-item.on .ac-sub{opacity:.7;color:#000}
+
+/* FIND & REPLACE */
+#fp{position:fixed;top:calc(var(--top-h) + 8px);right:16px;background:var(--surface);border:1px solid var(--border2);border-radius:7px;padding:13px;z-index:5000;display:none;width:308px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+#fp.on{display:block;animation:fadeSlide .2s ease}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.f-row{display:flex;gap:5px;margin-bottom:7px}
+.f-in{flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:5px 8px;font-family:'Courier Prime',monospace;font-size:12px;border-radius:3px;outline:none;transition:border-color .15s}
+.f-in:focus{border-color:var(--accent)}
+.f-btn{background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:5px 9px;border-radius:3px;cursor:pointer;font-size:11px;transition:all .1s;font-family:'Courier Prime',monospace}
+.f-btn:hover{background:var(--accent);color:#000;border-color:var(--accent)}
+.f-ct{font-size:10px;color:var(--text-dim);margin-bottom:5px}
+
+/* MODALS */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:7000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.on{opacity:1;pointer-events:auto}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:26px;width:500px;max-width:96vw;max-height:92vh;overflow-y:auto;animation:modalIn .2s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(-8px)}to{opacity:1;transform:none}}
+.modal h2{font-family:'Bebas Neue',cursive;font-size:22px;color:var(--accent);margin-bottom:18px;letter-spacing:2px}
+.mf{margin-bottom:13px}
+.mf label{display:block;font-size:10.5px;color:var(--text-dim);margin-bottom:4px;letter-spacing:.8px}
+.mf input,.mf textarea,.mf select{width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:8px 10px;font-family:'Courier Prime',monospace;font-size:13px;border-radius:4px;outline:none;transition:border-color .15s}
+.mf input:focus,.mf textarea:focus{border-color:var(--accent)}
+.m-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+.m-btn{padding:7px 20px;border-radius:4px;cursor:pointer;font-family:'Courier Prime',monospace;font-size:12px;border:1px solid var(--border);color:var(--text);background:transparent;transition:all .15s}
+.m-btn.p{background:var(--accent);border-color:var(--accent);color:#000;font-weight:700}
+.m-btn:hover{opacity:.8}
+.g-sec{margin-bottom:16px}.g-sec h3{font-size:11px;color:var(--accent);margin-bottom:6px;letter-spacing:1px}
+.g-row{display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid var(--border);color:var(--text)}
+.g-k{color:var(--accent);font-weight:700;font-size:11px;white-space:nowrap}
+
+/* RESTORE */
+#restore{position:fixed;top:calc(var(--top-h) + 8px);left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--accent);border-radius:6px;padding:10px 18px;z-index:5500;display:none;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(0,0,0,.5);font-size:12px;animation:fadeSlide .3s ease}
+#restore.on{display:flex}
+
+/* FOCUS MODE */
+body.focus #left-sb,body.focus #right-sb,body.focus #lt,body.focus #rt,body.focus #sb,body.focus #el-bar{display:none!important}
+body.focus #app{padding-top:var(--nav-h)}
+body.focus #nav{opacity:0;transition:opacity .3s}
+body.focus #nav:hover{opacity:1}
+
+/* ═══════════════════════════
+   FIX 5: TITLE PAGE PRINT ONLY
+═══════════════════════════ */
+#title-page-print{display:none}
+@media print{
+  /* Fix 3: @page removes browser-injected URL header and date/page footer */
+  @page{
+    size:A4;
+    margin:0;   /* zero browser margin = no header/footer chrome */
+  }
+  #nav,#el-bar,#left-sb,#right-sb,#sb,.sb-toggle,#ac,.overlay,#fp,#restore,#splash,#fmt-bar{display:none!important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{overflow:visible;height:auto;background:white;margin:0;padding:0}
+  #app{height:auto;padding:0;display:block}
+  #ed-wrap{overflow:visible;padding:0;background:white!important;display:block}
+  #page-wrap{width:210mm;margin:0 auto}
+  .page-shell{
+    box-shadow:none;
+    /* Fix 3: our own margins since browser margin is 0 */
+    padding:25mm 25mm 25mm 38mm;
+    min-height:297mm;
+    page-break-after:always;
+    background:white!important;
+  }
+  .page-shell:last-of-type{page-break-after:avoid}
+  .pg-break{display:none}
+  .L{color:#000!important}
+  .page-num-label{color:#888}
+  /* Fix 5: Show title page before content on print */
+  #title-page-print{
+    display:block!important;
+    width:210mm;min-height:297mm;
+    padding:25mm 38mm;
+    background:white;
+    page-break-after:always;
+    font-family:'Courier Prime',monospace;font-size:12pt;color:#000;
+    position:relative;
+  }
+  #title-page-print .tp-title{text-align:center;text-transform:uppercase;font-weight:700;font-size:14pt;margin-top:90mm;margin-bottom:40mm}
+  #title-page-print .tp-by{text-align:center;margin-bottom:.3em}
+  #title-page-print .tp-author{text-align:center;margin-bottom:1.2em}
+  #title-page-print .tp-based{text-align:center;margin-bottom:2em;font-style:italic}
+  #title-page-print .tp-meta{position:absolute;bottom:25mm;left:38mm;font-size:10pt;line-height:1.8}
+}
+
+/* RESPONSIVE */
+@media(max-width:820px){
+  :root{--left-w:0px;--right-w:0px;--page-w:100%}
+  #left-sb,#right-sb,#lt,#rt{display:none}
+  .page-shell{padding:36px 24px 36px 40px}
+  .L[data-t="ch"]{margin-left:80px}.L[data-t="pa"]{margin-left:44px;margin-right:44px}.L[data-t="di"]{margin-left:28px;margin-right:28px}
+  .elb-k{display:none}.elb-item{padding:0 10px;font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<div id="splash"><div class="sl">FADE IN</div><div class="ss">Professional Screenwriting</div></div>
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <div id="logo">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="var(--accent)" stroke-width="1.5">
+      <rect x="2" y="3" width="20" height="18" rx="2"/>
+      <rect x="2" y="3" width="4" height="4" fill="var(--accent)" stroke="none"/>
+      <rect x="10" y="3" width="4" height="4" fill="var(--accent)" stroke="none"/>
+      <rect x="18" y="3" width="4" height="4" fill="var(--accent)" stroke="none"/>
+      <line x1="2" y1="9" x2="22" y2="9"/>
+    </svg>
+    FADE IN
+  </div>
+  <input id="script-title" type="text" value="UNTITLED SCREENPLAY" spellcheck="false">
+  <div class="n-group">
+    <span class="n-stat" id="pg-ct">p. 1</span>
+    <span class="n-stat" id="wd-ct">0 w</span>
+    <span class="n-stat" id="sc-ct">0 sc</span>
+  </div>
+  <div class="n-group">
+    <button class="n-btn" onclick="openTitleModal()">Title Pg</button>
+    <button class="n-btn" id="rev-btn" onclick="toggleRevision()">Revision</button>
+    <button class="n-btn" id="foc-btn" onclick="toggleFocus()">Focus</button>
+    <button class="n-btn" onclick="openFind()">Find</button>
+  </div>
+  <div class="n-group">
+    <button class="n-btn" onclick="saveTxt()">↓ .txt</button>
+    <button class="n-btn gold" onclick="printPDF()">↓ PDF</button>
+    <button class="n-btn" id="theme-btn" onclick="toggleTheme()">☀ Light</button>
+    <button class="n-btn" onclick="openGuide()">? Guide</button>
+  </div>
+</nav>
+
+<!-- ELEMENT TYPE BAR — FIX 3: mousedown+preventDefault keeps editor focus -->
+<div id="el-bar">
+  <div class="elb-item" id="elb-sh" data-t="sh">INT./EXT. <span class="elb-k">1</span></div>
+  <div class="elb-item on" id="elb-ac" data-t="ac">Action <span class="elb-k">2</span></div>
+  <div class="elb-item" id="elb-ch" data-t="ch">CHARACTER <span class="elb-k">3</span></div>
+  <div class="elb-item" id="elb-pa" data-t="pa">(Parenth.) <span class="elb-k">4</span></div>
+  <div class="elb-item" id="elb-di" data-t="di">Dialogue <span class="elb-k">5</span></div>
+  <div class="elb-item" id="elb-tr" data-t="tr">TRANSITION <span class="elb-k">6</span></div>
+</div>
+
+<!-- APP -->
+<div id="app">
+<aside class="sidebar" id="left-sb">
+  <div class="sb-tabs">
+    <div class="sb-tab on" onclick="sbTab('scenes',this)">SCENES</div>
+    <div class="sb-tab" onclick="sbTab('chars',this)">CHARS</div>
+    <div class="sb-tab" onclick="sbTab('notes',this)">NOTES</div>
+  </div>
+  <div class="sb-panel on" id="pn-scenes"><div class="sb-list" id="scene-nav"><div class="sb-empty">No scenes yet.<br>Type INT. or EXT. to begin.</div></div></div>
+  <div class="sb-panel" id="pn-chars"><div class="sb-list" id="char-nav"><div class="sb-empty">No characters yet.</div></div></div>
+  <div class="sb-panel" id="pn-notes"><textarea id="notes-ta" placeholder="Production notes, ideas, reminders…"></textarea></div>
+</aside>
+
+<button class="sb-toggle" id="lt" onclick="toggleSB('left')">◀</button>
+
+<div id="ed-wrap">
+  <div id="page-wrap">
+    <!-- FIX 5: Title page hidden div — only shows on print -->
+    <div id="title-page-print" style="display:none"></div>
+    <div class="page-shell" id="ps">
+      <div class="page-num-label">1.</div>
+      <div id="editor" contenteditable="true" spellcheck="true" autocorrect="off" autocapitalize="off"></div>
+    </div>
+  </div>
+</div>
+
+<button class="sb-toggle" id="rt" onclick="toggleSB('right')">▶</button>
+
+<aside class="sidebar" id="right-sb">
+  <div style="display:flex;flex-direction:column;height:100%;overflow:hidden">
+    <div class="doc-hdr"><span>⚕ SCRIPT DOCTOR</span><span class="doc-badge" id="doc-ct">0</span></div>
+    <div id="doc-list" style="flex:1;overflow-y:auto;padding:8px"><div class="sb-empty">Your script looks clean.<br>Keep writing!</div></div>
+  </div>
+</aside>
+</div>
+
+<!-- STATUS BAR -->
+<div id="sb">
+  <div class="sb-stat">Element: <strong id="el-type">ACTION</strong></div>
+  <div class="sb-stat">Line: <strong id="el-line">1</strong></div>
+  <div id="sv" class="ok">● Saved locally</div>
+  <div id="ticker">💡 Begin your screenplay with FADE IN: — it's professional tradition.</div>
+</div>
+
+<!-- FIX 4: SELECTION FORMATTING TOOLBAR -->
+<div id="fmt-bar">
+  <button class="fmt-btn" id="fbt-bold"    title="Bold (Ctrl+B)"          onmousedown="fmtExec(event,'bold')"><b>B</b></button>
+  <button class="fmt-btn" id="fbt-italic"  title="Italic (Ctrl+I)"        onmousedown="fmtExec(event,'italic')"><i>I</i></button>
+  <button class="fmt-btn" id="fbt-under"   title="Underline (Ctrl+U)"     onmousedown="fmtExec(event,'underline')"><u>U</u></button>
+  <button class="fmt-btn" id="fbt-strike"  title="Strikethrough"          onmousedown="fmtExec(event,'strikeThrough')"><s>S</s></button>
+  <div class="fmt-div"></div>
+  <button class="fmt-btn clr"              title="Clear formatting"       onmousedown="fmtExec(event,'removeFormat')">clear</button>
+</div>
+
+<!-- AUTOCOMPLETE -->
+<div id="ac"></div>
+
+<!-- FIND -->
+<div id="fp">
+  <div class="f-row">
+    <input class="f-in" id="f-q" placeholder="Find…" oninput="doFind()">
+    <button class="f-btn" onclick="fPrev()">↑</button>
+    <button class="f-btn" onclick="fNext()">↓</button>
+    <button class="f-btn" onclick="closeFind()">✕</button>
+  </div>
+  <div class="f-ct" id="f-ct"></div>
+  <div class="f-row">
+    <input class="f-in" id="f-r" placeholder="Replace with…">
+    <button class="f-btn" onclick="replaceOne()">Replace</button>
+    <button class="f-btn" onclick="replaceAll()">All</button>
+  </div>
+</div>
+
+<!-- RESTORE -->
+<div id="restore">
+  <span>📄 Autosaved script found.</span>
+  <button class="n-btn gold" onclick="restoreScript()">Restore</button>
+  <button class="n-btn" onclick="closeRestore()">Start Fresh</button>
+</div>
+
+<!-- FIX 5: TITLE PAGE MODAL — saves data only, no editor insertion -->
+<div class="overlay" id="title-ov">
+  <div class="modal">
+    <h2>Title Page</h2>
+    <p style="font-size:11px;color:var(--text-dim);margin-bottom:16px;line-height:1.6">The title page is kept <strong style="color:var(--accent)">separate</strong> from your script. It will appear as Page 1 when you export to PDF or .txt — it won't clutter your editor.</p>
+    <div class="mf"><label>TITLE</label><input id="tp-t" placeholder="THE LAST SHOT"></div>
+    <div class="mf"><label>WRITTEN BY</label><input id="tp-a" placeholder="Your Name"></div>
+    <div class="mf"><label>BASED ON (optional)</label><input id="tp-b" placeholder="Based on the novel by…"></div>
+    <div class="mf"><label>DRAFT NUMBER</label><input id="tp-d" value="First Draft"></div>
+    <div class="mf"><label>DATE</label><input id="tp-dt" placeholder="2025"></div>
+    <div class="mf"><label>CONTACT / WGA NUMBER</label><input id="tp-c" placeholder="email@example.com"></div>
+    <div class="m-btns">
+      <button class="m-btn" onclick="closeOverlay('title-ov')">Cancel</button>
+      <button class="m-btn p" onclick="saveTitlePage()">Save Title Page</button>
+    </div>
+  </div>
+</div>
+
+<!-- GUIDE MODAL -->
+<div class="overlay" id="guide-ov">
+  <div class="modal" style="width:560px">
+    <h2>Format Guide & Shortcuts</h2>
+    <div class="g-sec">
+      <h3>KEYBOARD SHORTCUTS</h3>
+      <div class="g-row"><span>Cycle element type</span><span class="g-k">Tab</span></div>
+      <div class="g-row"><span>Smart new line</span><span class="g-k">Enter</span></div>
+      <div class="g-row"><span>Confirm autocomplete</span><span class="g-k">Tab / Enter / Click</span></div>
+      <div class="g-row"><span>Navigate autocomplete</span><span class="g-k">↑ ↓</span></div>
+      <div class="g-row"><span>Scene Heading</span><span class="g-k">Ctrl+1</span></div>
+      <div class="g-row"><span>Action</span><span class="g-k">Ctrl+2</span></div>
+      <div class="g-row"><span>Character</span><span class="g-k">Ctrl+3</span></div>
+      <div class="g-row"><span>Parenthetical</span><span class="g-k">Ctrl+4</span></div>
+      <div class="g-row"><span>Dialogue</span><span class="g-k">Ctrl+5</span></div>
+      <div class="g-row"><span>Transition</span><span class="g-k">Ctrl+6</span></div>
+      <div class="g-row"><span>Bold / Italic / Underline</span><span class="g-k">Ctrl+B / I / U</span></div>
+      <div class="g-row"><span>Save .txt</span><span class="g-k">Ctrl+S</span></div>
+      <div class="g-row"><span>Print / PDF</span><span class="g-k">Ctrl+P</span></div>
+      <div class="g-row"><span>Dark/Light toggle</span><span class="g-k">Ctrl+D</span></div>
+      <div class="g-row"><span>Find & Replace</span><span class="g-k">Ctrl+F</span></div>
+      <div class="g-row"><span>New Scene Heading</span><span class="g-k">Ctrl+Shift+N</span></div>
+      <div class="g-row"><span>Focus mode</span><span class="g-k">Ctrl+Shift+F</span></div>
+    </div>
+    <div class="g-sec">
+      <h3>SMART AUTOCOMPLETE</h3>
+      <div class="g-row"><span>Type "I" in scene heading → INT. / INT./EXT. / I/E</span></div>
+      <div class="g-row"><span>Type "E" → EXT.</span></div>
+      <div class="g-row"><span>After INT./EXT. + location + " - " → time of day</span></div>
+      <div class="g-row"><span>Character element → known character names</span></div>
+      <div class="g-row"><span>Transition element → CUT TO:, FADE OUT., etc.</span></div>
+    </div>
+    <div class="g-sec">
+      <h3>PRO TIPS</h3>
+      <div class="g-row"><span>1 page ≈ 1 minute of screen time</span></div>
+      <div class="g-row"><span>Action blocks: 4 lines max for pace</span></div>
+      <div class="g-row"><span>Open with FADE IN: — close with FADE OUT.</span></div>
+      <div class="g-row"><span>First appearance of a character: always describe them</span></div>
+      <div class="g-row"><span>Title page is separate — set it via the Title Pg button</span></div>
+    </div>
+    <div class="m-btns"><button class="m-btn p" onclick="closeOverlay('guide-ov')">Got It</button></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ─── CONSTANTS ─── */
+const TYPES  = ['sh','ac','ch','pa','di','tr'];
+const LABELS = {sh:'SCENE HEADING',ac:'ACTION',ch:'CHARACTER',pa:'PARENTHETICAL',di:'DIALOGUE',tr:'TRANSITION'};
+const PH     = {sh:'INT./EXT. LOCATION — DAY',ac:'Action…',ch:'CHARACTER NAME',pa:'(beat)',di:'Dialogue…',tr:'CUT TO:'};
+
+/* FIX 2: rotating placeholder set */
+const ROTATING_PH = ['INT./EXT. LOCATION — DAY','Action description…','FADE IN:'];
+let rotPhIdx = 0;
+
+const SH_PFX = ['INT.','EXT.','INT./EXT.','I/E'];
+const TIMES  = ['DAY','NIGHT','CONTINUOUS','LATER','MORNING','EVENING','DUSK','DAWN','MOMENTS LATER','SAME TIME','PRE-DAWN'];
+const TRANS  = ['CUT TO:','FADE OUT.','FADE IN:','SMASH CUT TO:','DISSOLVE TO:','MATCH CUT TO:','JUMP CUT TO:','WIPE TO:','IRIS OUT.','TITLE CARD:'];
+const TIPS   = [
+  '💡 A page of screenplay ≈ 1 minute of screen time.',
+  '💡 Open with FADE IN: — close with FADE OUT.',
+  '💡 Keep action blocks to 4 lines or fewer.',
+  '💡 Trust your dialogue — use parentheticals sparingly.',
+  '💡 Introduce new characters in ALL CAPS with a description.',
+  '💡 Tab cycles element types. Enter creates smart next lines.',
+  '💡 Select text to see Bold, Italic, Underline options.',
+  '💡 Ctrl+S saves your script as .txt anytime.',
+  '💡 The Script Doctor flags industry-standard issues.',
+  '💡 Title page is separate — it only appears on export.',
+];
+
+/* ─── STATE ─── */
+let revMode=false, isDark=true, tipIdx=0;
+let fMatches=[], fIdx=0, acItems=[], acIdx=-1;
+let schedTimer=null;
+let chars=new Set(), locs=new Set();
+const LPP=55; // lines per page
+
+/* ─── TITLE PAGE DATA (FIX 5) ─── */
+let titlePageData = null;
+
+/* ─── BOOT ─── */
+window.addEventListener('DOMContentLoaded',()=>{
+  initEditor();
+  checkAutoSave();
+  startTicker();
+  startPhRotator(); /* FIX 2 */
+  setInterval(autoSave,30000);
+  attachElbClicks(); /* FIX 3 */
+  syncToggles();
+  setTimeout(()=>{ const s=document.getElementById('splash'); if(s) s.remove(); },5000);
+});
+
+/* ─── FIX 3: attach elb clicks with mousedown to preserve focus ─── */
+function attachElbClicks(){
+  document.querySelectorAll('.elb-item').forEach(btn=>{
+    btn.addEventListener('mousedown', e=>{
+      e.preventDefault(); // critical: prevents editor losing focus
+      const t = btn.dataset.t;
+      if(t) setType(t);
+    });
+  });
+}
+
+/* ─── FIX 2: rotating placeholder on first line only ─── */
+function startPhRotator(){
+  setInterval(()=>{
+    const ls = allLines();
+    if(!ls.length) return;
+    const first = ls[0];
+    // Only rotate if the first line is empty and it's the only line (or script is empty)
+    if(first.textContent === '' && first.classList.contains('first-line')){
+      rotPhIdx = (rotPhIdx+1) % ROTATING_PH.length;
+      first.dataset.ph = ROTATING_PH[rotPhIdx];
+    }
+  }, 3000);
+}
+
+function refreshFirstLinePh(){
+  const ls = allLines();
+  // Remove first-line class from all
+  ls.forEach(l => l.classList.remove('first-line'));
+  // Give first-line class only to the very first line if it's empty
+  if(ls.length > 0 && ls[0].textContent === ''){
+    ls[0].classList.add('first-line');
+    ls[0].dataset.ph = ROTATING_PH[rotPhIdx];
+  }
+}
+
+/* ─── EDITOR INIT ─── */
+function initEditor(){
+  const ed = document.getElementById('editor');
+  const l  = makeLine('ac','');
+  l.classList.add('first-line');
+  l.dataset.ph = ROTATING_PH[0];
+  ed.appendChild(l);
+
+  ed.addEventListener('keydown',  onKeyDown, true);
+  ed.addEventListener('input',    onInput);
+  ed.addEventListener('click',    onClick);
+  ed.addEventListener('mouseup',  onMouseUp);  /* FIX 4 */
+
+  document.addEventListener('keydown',         onGlobal, true);
+  document.addEventListener('click',           onDocClick);
+  document.addEventListener('selectionchange', onSel);
+
+  setTimeout(()=>{ l.focus(); setCaret(l,0); updateStatus(); },250);
+}
+
+/* ─── LINE FACTORY ─── */
+function makeLine(type, text=''){
+  const d = document.createElement('div');
+  d.className = 'L';
+  d.dataset.t = type;
+  d.contentEditable = 'true';
+  d.spellcheck = true;
+  // No placeholder by default — only first-line gets one (FIX 2)
+  if(text) d.textContent = text;
+  return d;
+}
+
+function allLines(){ return Array.from(document.getElementById('editor').querySelectorAll('.L')); }
+function lineIndex(l){ return allLines().indexOf(l); }
+
+/* ─── CARET ─── */
+function curLine(){
+  const sel = window.getSelection();
+  if(!sel||!sel.rangeCount) return null;
+  let n = sel.anchorNode;
+  const ed = document.getElementById('editor');
+  while(n && n!==ed){
+    if(n.nodeType===1 && n.classList && n.classList.contains('L')) return n;
+    n = n.parentNode;
+  }
+  return null;
+}
+function setCaret(el,pos){
+  el.focus();
+  const sel=window.getSelection(), r=document.createRange();
+  const tx=el.firstChild;
+  if(tx && tx.nodeType===Node.TEXT_NODE){ const p=pos<0?tx.length:Math.min(pos,tx.length); r.setStart(tx,p); r.collapse(true); }
+  else{ r.setStart(el,0); r.collapse(true); }
+  sel.removeAllRanges(); sel.addRange(r);
+}
+function setCaretEnd(el){ setCaret(el,-1); }
+function getCaretOffset(el){
+  const sel=window.getSelection(); if(!sel||!sel.rangeCount) return 0;
+  const r=sel.getRangeAt(0).cloneRange();
+  r.selectNodeContents(el); r.setEnd(sel.anchorNode,sel.anchorOffset);
+  return r.toString().length;
+}
+function caretAtStart(el){
+  const sel=window.getSelection(); if(!sel||!sel.rangeCount) return false;
+  const r=sel.getRangeAt(0);
+  return r.collapsed && r.startOffset===0 && (r.startContainer===el||r.startContainer===el.firstChild);
+}
+function caretAtEnd(el){ return getCaretOffset(el)>=el.textContent.length; }
+
+/* ─── FIX 4: SELECTION FORMATTING TOOLBAR ─── */
+function onMouseUp(){
+  // Small delay so selection is finalized
+  setTimeout(showFmtBar, 10);
+}
+
+function showFmtBar(){
+  const sel = window.getSelection();
+  const bar = document.getElementById('fmt-bar');
+  if(!sel || sel.isCollapsed || !sel.rangeCount){
+    bar.classList.remove('on');
+    return;
+  }
+  // Only show inside editor
+  const ed = document.getElementById('editor');
+  if(!ed.contains(sel.anchorNode)){
+    bar.classList.remove('on');
+    return;
+  }
+  // Position above selection
+  const range = sel.getRangeAt(0);
+  const rect  = range.getBoundingClientRect();
+  if(!rect.width && !rect.height){ bar.classList.remove('on'); return; }
+
+  bar.classList.add('on');
+
+  // Centre the bar above the selection
+  const barW = bar.offsetWidth || 200;
+  let left = rect.left + (rect.width/2) - (barW/2);
+  let top  = rect.top - bar.offsetHeight - 8;
+
+  // Clamp to viewport
+  left = Math.max(6, Math.min(left, window.innerWidth - barW - 6));
+  if(top < 6) top = rect.bottom + 8;
+
+  bar.style.left = left + 'px';
+  bar.style.top  = top  + 'px';
+
+  // Reflect current state
+  document.getElementById('fbt-bold').classList.toggle('on',   document.queryCommandState('bold'));
+  document.getElementById('fbt-italic').classList.toggle('on', document.queryCommandState('italic'));
+  document.getElementById('fbt-under').classList.toggle('on',  document.queryCommandState('underline'));
+  document.getElementById('fbt-strike').classList.toggle('on', document.queryCommandState('strikeThrough'));
+}
+
+function fmtExec(e, cmd){
+  e.preventDefault(); // keep selection alive
+  document.execCommand(cmd, false, null);
+  setTimeout(showFmtBar, 10);
+  sched();
+}
+
+function hideFmtBar(){
+  document.getElementById('fmt-bar').classList.remove('on');
+}
+
+/* ─── KEY DOWN ─── */
+function onKeyDown(e){
+  const l = curLine();
+
+  if(e.key==='Tab'){
+    e.preventDefault(); e.stopPropagation();
+    if(isAcOpen()){ confirmAc(); return; }
+    if(l) cycleType(l);
+    return;
+  }
+  if(e.key==='Enter'){
+    e.preventDefault(); e.stopPropagation();
+    if(isAcOpen()){ confirmAc(); return; }
+    if(l) smartEnter(l);
+    return;
+  }
+  if(e.key==='Backspace' && l){
+    const txt = l.textContent;
+    if(txt===''){
+      const prev = l.previousElementSibling;
+      if(prev && prev.classList.contains('L')){ e.preventDefault(); e.stopPropagation(); l.remove(); setCaretEnd(prev); refreshFirstLinePh(); sched(); return; }
+    } else if(caretAtStart(l)){
+      const prev = l.previousElementSibling;
+      if(prev && prev.classList.contains('L')){ e.preventDefault(); e.stopPropagation(); const pos=prev.textContent.length; prev.textContent+=txt; l.remove(); setCaret(prev,pos); refreshFirstLinePh(); sched(); return; }
+    }
+  }
+  if(e.key==='Delete' && l && caretAtEnd(l)){
+    const next = l.nextElementSibling;
+    if(next && next.classList.contains('L')){ e.preventDefault(); e.stopPropagation(); const pos=l.textContent.length; l.textContent+=next.textContent; next.remove(); setCaret(l,pos); sched(); return; }
+  }
+  if(isAcOpen()){
+    if(e.key==='ArrowDown'){ e.preventDefault(); moveAc(1); return; }
+    if(e.key==='ArrowUp'){   e.preventDefault(); moveAc(-1); return; }
+    if(e.key==='Escape'){    e.preventDefault(); closeAc(); return; }
+  }
+}
+
+function onGlobal(e){
+  const ctrl = e.ctrlKey||e.metaKey;
+  if(e.key==='Escape'){ closeAc(); closeFind(); hideFmtBar(); return; }
+  if(!ctrl) return;
+  const k=e.key;
+  if(k==='1'){e.preventDefault();setType('sh')}
+  else if(k==='2'){e.preventDefault();setType('ac')}
+  else if(k==='3'){e.preventDefault();setType('ch')}
+  else if(k==='4'){e.preventDefault();setType('pa')}
+  else if(k==='5'){e.preventDefault();setType('di')}
+  else if(k==='6'){e.preventDefault();setType('tr')}
+  else if(k==='s'){e.preventDefault();saveTxt()}
+  else if(k==='p'){e.preventDefault();printPDF()}
+  else if(k==='d'){e.preventDefault();toggleTheme()}
+  else if(k==='f'&&!e.shiftKey){e.preventDefault();openFind()}
+  else if((k==='n'||k==='N')&&e.shiftKey){e.preventDefault();insertNewScene()}
+  else if((k==='f'||k==='F')&&e.shiftKey){e.preventDefault();toggleFocus()}
+  // Ctrl+B/I/U handled natively by execCommand — just update toolbar state
+  if(k==='b'||k==='i'||k==='u'){ setTimeout(showFmtBar,10); }
+}
+
+/* ─── INPUT ─── */
+function onInput(){
+  const l=curLine(); if(!l) return;
+  const t=l.dataset.t, up=l.textContent.toUpperCase().trimStart();
+  // Auto-detect scene heading
+  if(t!=='sh'&&(up.startsWith('INT.')||up.startsWith('EXT.')||up.startsWith('INT./EXT.')||up.startsWith('I/E '))){
+    applyType(l,'sh');
+  }
+  // Auto-detect transition
+  if(t!=='tr' && TRANS.some(tr=>up===tr||up===tr.replace(/[:.]$/,''))){
+    applyType(l,'tr');
+  }
+  if(revMode && !l.classList.contains('revised')) l.classList.add('revised');
+  refreshFirstLinePh(); /* FIX 2 */
+  triggerAc(l);
+  sched();
+}
+
+/* ─── AUTOCOMPLETE ENGINE ─── */
+function triggerAc(l){
+  const t=l.dataset.t, raw=l.textContent, up=raw.toUpperCase();
+  let sugs=[], label='';
+
+  if(t==='sh'){
+    label='SCENE HEADING';
+    const hasPfx = SH_PFX.some(p=>up.startsWith(p+' ')||up===p);
+    if(!hasPfx){
+      sugs = up==='' ? [...SH_PFX] : SH_PFX.filter(p=>p.startsWith(up)&&p!==up);
+    } else {
+      const pfx = SH_PFX.find(p=>up.startsWith(p))||'';
+      const rest = up.slice(pfx.length).trimStart();
+      const dashIdx = rest.indexOf(' - ');
+      if(dashIdx===-1){
+        const pfxStr = pfx+' ';
+        sugs = [...locs].filter(loc=>{ const lu=loc.toUpperCase(); return lu.startsWith(pfxStr+rest)&&lu!==up; }).slice(0,7);
+      } else {
+        const afterDash = rest.slice(dashIdx+3).toUpperCase();
+        sugs = TIMES.filter(t=>t.startsWith(afterDash)&&t!==afterDash);
+      }
+    }
+  } else if(t==='ch'){
+    label='CHARACTER';
+    if(up.length>=1) sugs=[...chars].filter(c=>c.startsWith(up)&&c!==up);
+  } else if(t==='tr'){
+    label='TRANSITION';
+    sugs = up===''||up===' ' ? TRANS : TRANS.filter(tr=>tr.startsWith(up)&&tr!==up);
+  }
+
+  if(sugs.length>0) showAc(sugs,l,label);
+  else closeAc();
+}
+
+function showAc(items,l,label=''){
+  const ac=document.getElementById('ac');
+  acItems=items.slice(0,9); acIdx=-1;
+  ac.innerHTML='';
+  if(label){ const lbl=document.createElement('div'); lbl.className='ac-label'; lbl.textContent=label; ac.appendChild(lbl); }
+  acItems.forEach(item=>{
+    const d=document.createElement('div'); d.className='ac-item';
+    const s=document.createElement('span'); s.textContent=item; d.appendChild(s);
+    const h=document.createElement('span'); h.className='ac-sub'; h.textContent='↵'; d.appendChild(h);
+    d.addEventListener('mousedown',ev=>{ ev.preventDefault(); applyAc(l,item); closeAc(); });
+    ac.appendChild(d);
+  });
+  const rect=l.getBoundingClientRect();
+  ac.style.left=Math.max(4,rect.left)+'px';
+  ac.style.top=(rect.bottom+3)+'px';
+  ac.style.minWidth=Math.max(rect.width,220)+'px';
+  ac.style.display='block';
+}
+function closeAc(){ document.getElementById('ac').style.display='none'; acItems=[]; acIdx=-1; }
+function isAcOpen(){ return document.getElementById('ac').style.display==='block'&&acItems.length>0; }
+function moveAc(dir){ const items=document.getElementById('ac').querySelectorAll('.ac-item'); acIdx=Math.max(-1,Math.min(items.length-1,acIdx+dir)); items.forEach((it,i)=>it.classList.toggle('on',i===acIdx)); }
+function confirmAc(){ const l=curLine(); if(!l){closeAc();return;} const item=acIdx>=0?acItems[acIdx]:acItems[0]; if(item)applyAc(l,item); closeAc(); }
+function applyAc(l,text){
+  const t=l.dataset.t;
+  if(t==='sh'&&SH_PFX.includes(text)){ l.textContent=text+' '; }
+  else if(t==='sh'&&TIMES.includes(text)){
+    const raw=l.textContent, up=raw.toUpperCase();
+    const pfx=SH_PFX.find(p=>up.startsWith(p))||'';
+    const rest=raw.slice(pfx.length).trimStart();
+    const dashIdx=rest.indexOf(' - ');
+    if(dashIdx!==-1){ const before=raw.slice(0,raw.indexOf(rest)+dashIdx); l.textContent=before+' - '+text; }
+    else l.textContent=raw+text;
+  } else { l.textContent=text; }
+  setCaretEnd(l);
+  setTimeout(()=>triggerAc(l),60);
+}
+
+/* ─── TYPE MANAGEMENT ─── */
+function cycleType(l){ const idx=TYPES.indexOf(l.dataset.t); applyType(l,TYPES[(idx+1)%TYPES.length]); }
+function setType(t){ const l=curLine(); if(l) applyType(l,t); }
+function applyType(l,t){
+  l.dataset.t=t;
+  const txt=l.textContent;
+  if(t==='sh'||t==='ch'||t==='tr'){ const up=txt.toUpperCase(); if(txt!==up){l.textContent=up;setCaretEnd(l);} }
+  if(t==='pa'){ let tx=txt.trim(); if(!tx.startsWith('('))tx='('+tx; if(!tx.endsWith(')'))tx=tx+')'; if(tx!==txt){l.textContent=tx;setCaret(l,tx.length-1);} }
+  updateStatus(); sched();
+}
+
+/* ─── ENTER ─── */
+function smartEnter(l){
+  const map={sh:'ac',ac:'ac',ch:'di',pa:'di',di:'ac',tr:'sh'};
+  const next=map[l.dataset.t]||'ac';
+  const pos=getCaretOffset(l), full=l.textContent;
+  let nl;
+  if(pos>0&&pos<full.length){ l.textContent=full.slice(0,pos); nl=makeLine(next,full.slice(pos)); }
+  else nl=makeLine(next,'');
+  insertAfter(l,nl); setCaret(nl,0);
+  refreshFirstLinePh(); /* FIX 2 */
+  sched();
+}
+function insertAfter(ref,el){ ref.parentNode.insertBefore(el,ref.nextSibling); }
+function insertNewScene(){ const l=curLine(), nl=makeLine('sh',''); if(l)insertAfter(l,nl); else document.getElementById('editor').appendChild(nl); setCaret(nl,0); sched(); }
+
+/* ─── STATUS & EL-BAR ─── */
+function updateStatus(){
+  const l=curLine(); if(!l) return;
+  const t=l.dataset.t;
+  document.getElementById('el-type').textContent=LABELS[t]||t.toUpperCase();
+  document.getElementById('el-line').textContent=lineIndex(l)+1;
+  document.querySelectorAll('.elb-item').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+}
+function onClick(){ updateStatus(); closeAc(); }
+function onSel(){ updateStatus(); }
+function onDocClick(e){
+  if(!document.getElementById('ac').contains(e.target)) closeAc();
+  // Hide fmt bar if clicking outside editor
+  const ed=document.getElementById('editor');
+  const bar=document.getElementById('fmt-bar');
+  if(!ed.contains(e.target)&&!bar.contains(e.target)) hideFmtBar();
+}
+
+/* ─── SIDEBAR TABS ─── */
+function sbTab(name,tab){ document.querySelectorAll('.sb-panel').forEach(p=>p.classList.remove('on')); document.querySelectorAll('.sb-tab').forEach(t=>t.classList.remove('on')); const pn=document.getElementById('pn-'+name); if(pn)pn.classList.add('on'); tab.classList.add('on'); }
+function toggleSB(side){
+  const el=document.getElementById(side==='left'?'left-sb':'right-sb');
+  const btn=document.getElementById(side==='left'?'lt':'rt');
+  el.classList.toggle('closed');
+  const closed=el.classList.contains('closed');
+  if(side==='left') btn.textContent=closed?'▶':'◀';
+  else              btn.textContent=closed?'◀':'▶';
+  syncToggles();
+}
+function syncToggles(){ const ls=document.getElementById('left-sb'),rs=document.getElementById('right-sb'),lt=document.getElementById('lt'),rt=document.getElementById('rt'); lt.style.left=( ls.classList.contains('closed')?0:ls.offsetWidth)+'px'; rt.style.right=(rs.classList.contains('closed')?0:rs.offsetWidth)+'px'; }
+
+/* ─── SCHEDULED UPDATE ─── */
+function sched(){ clearTimeout(schedTimer); schedTimer=setTimeout(runUpdate,300); }
+function runUpdate(){ updateSidebars(); updateStats(); runDoctor(); renderPageBreaks(); markUnsaved(); }
+
+/* ─── SIDEBARS ─── */
+function updateSidebars(){
+  chars.clear(); locs.clear();
+  const lines=allLines(), scenes=[], charOrder=[], charSet=new Set();
+  lines.forEach((l,i)=>{
+    const t=l.dataset.t, tx=l.textContent.trim(); if(!tx)return;
+    if(t==='sh'){scenes.push({tx,i});locs.add(tx);}
+    if(t==='ch'){const nm=tx.replace(/\s*\(.*?\)/,'').trim();if(nm){chars.add(nm);if(!charSet.has(nm)){charSet.add(nm);charOrder.push(nm);}}}
+  });
+  document.getElementById('scene-nav').innerHTML=scenes.length?scenes.map((s,i)=>`<div class="sb-item is-scene" onclick="jumpTo(${s.i})"><span style="opacity:.4;margin-right:5px">${i+1}.</span>${s.tx}</div>`).join(''):'<div class="sb-empty">No scenes yet.<br>Type INT. or EXT. to begin.</div>';
+  document.getElementById('char-nav').innerHTML=charOrder.length?charOrder.map(n=>`<div class="sb-item">● ${n}</div>`).join(''):'<div class="sb-empty">No characters yet.</div>';
+  document.getElementById('sc-ct').textContent=scenes.length+' sc';
+}
+function jumpTo(i){ const ls=allLines(); if(ls[i]){ls[i].scrollIntoView({behavior:'smooth',block:'center'});setCaretEnd(ls[i]);} }
+
+/* ─── STATS ─── */
+function updateStats(){
+  const txt=document.getElementById('editor').textContent;
+  const wds=txt.trim()?txt.trim().split(/\s+/).length:0;
+  const pgs=Math.max(1,Math.ceil(allLines().length/LPP));
+  document.getElementById('pg-ct').textContent='p. '+pgs;
+  document.getElementById('wd-ct').textContent=wds+' w';
+}
+
+/* ─── PAGE BREAKS — visual A4 page dividers ─── */
+function renderPageBreaks(){
+  document.querySelectorAll('.pg-break').forEach(b=>b.remove());
+  const ed=document.getElementById('editor'), ls=allLines();
+  for(let i=LPP-1; i<ls.length; i+=LPP){
+    if(ls[i]){
+      const hr=document.createElement('hr');
+      hr.className='pg-break';
+      hr.dataset.pg=String(Math.floor(i/LPP)+2);
+      ed.insertBefore(hr,ls[i].nextSibling);
+    }
+  }
+}
+
+/* ─── SCRIPT DOCTOR ─── */
+const RULES=[
+  {id:'fi',title:'Missing FADE IN:',cls:'warn',msg:'Professional scripts open with "FADE IN:" as the very first line.',check(ls){const f=ls.find(l=>l.textContent.trim());if(!f)return null;if(!f.textContent.includes('FADE IN'))return 0;return null;}},
+  {id:'fo',title:'Missing FADE OUT.',cls:'info',msg:'Scripts traditionally close with "FADE OUT." or "THE END".',check(ls){if(ls.length<5)return null;const last=[...ls].reverse().find(l=>l.textContent.trim());if(!last)return null;const tx=last.textContent.toUpperCase();if(!tx.includes('FADE OUT')&&!tx.includes('THE END'))return ls.length-1;return null;}},
+  {id:'la',title:'Long Action Block',cls:'info',msg:'Action blocks over 4 lines slow pacing. Break it up.',check(ls){let run=0,si=-1;for(let i=0;i<ls.length;i++){if(ls[i].dataset.t==='ac'){run++;if(run===5)si=i-4;}else{run=0;si=-1;}if(run>5)return si;}return null;}},
+  {id:'lm',title:'Long Monologue',cls:'warn',msg:'Dialogue over 8 lines loses readers. Trim or split.',check(ls){let run=0,si=-1;for(let i=0;i<ls.length;i++){if(ls[i].dataset.t==='di'){run++;if(run===8)si=i-7;}else run=0;if(run>8)return si;}return null;}},
+  {id:'ws',title:'"We See / We Hear"',cls:'info',msg:"Avoid 'we see' or 'we hear'. Describe directly.",check(ls){for(let i=0;i<ls.length;i++){const tx=ls[i].textContent.toLowerCase();if(ls[i].dataset.t==='ac'&&(tx.includes('we see')||tx.includes('we hear')))return i;}return null;}},
+  {id:'mt',title:'Scene Missing Time of Day',cls:'warn',msg:'Scene headings need: DAY, NIGHT, CONTINUOUS, etc.',check(ls){for(let i=0;i<ls.length;i++){if(ls[i].dataset.t!=='sh')continue;const tx=ls[i].textContent.toUpperCase();if(tx.length<5)continue;if(!TIMES.some(t=>tx.includes(t)))return i;}return null;}},
+  {id:'pv',title:'Possible Passive Voice',cls:'info',msg:"Active verbs only: 'She opens the door' not 'The door is opened.'",check(ls){const rx=/\b(is|are|was|were|been|being)\s+\w+ed\b/i;for(let i=0;i<ls.length;i++){if(ls[i].dataset.t==='ac'&&rx.test(ls[i].textContent))return i;}return null;}},
+  {id:'ns',title:'No Scene Heading on Page 1',cls:'err',msg:"Every location needs a scene heading. Add one to your opening.",check(ls){if(ls.length<5)return null;if(!ls.slice(0,55).some(l=>l.dataset.t==='sh'))return 0;return null;}},
+];
+function runDoctor(){
+  const ls=allLines(), issues=[];
+  RULES.forEach(rule=>{try{const ln=rule.check(ls);if(ln!==null&&ln!==undefined)issues.push({...rule,ln});}catch(e){}});
+  document.getElementById('doc-ct').textContent=issues.length;
+  document.getElementById('doc-list').innerHTML=issues.length?issues.map(i=>`<div class="doc-item ${i.cls}" onclick="jumpTo(${i.ln})"><div class="doc-title">${i.title}</div><div class="doc-msg">${i.msg}</div><div class="doc-ln">→ Line ${i.ln+1}</div></div>`).join(''):'<div class="sb-empty">Your script looks clean.<br>Keep writing!</div>';
+}
+
+/* ─── AUTO SAVE ─── */
+function markUnsaved(){ const el=document.getElementById('sv'); el.textContent='● Unsaved changes'; el.className='no'; }
+function markSaved(){ const el=document.getElementById('sv'); el.textContent='● Saved locally'; el.className='ok'; }
+function autoSave(){
+  try{
+    const data={
+      title:document.getElementById('script-title').value,
+      notes:document.getElementById('notes-ta').value,
+      lines:allLines().map(l=>({t:l.dataset.t,tx:l.innerHTML})), // use innerHTML to preserve bold/italic
+      titlePage:titlePageData,
+      at:Date.now()
+    };
+    localStorage.setItem('fadein_v4',JSON.stringify(data)); markSaved();
+  }catch(e){}
+}
+function checkAutoSave(){
+  try{
+    const raw=localStorage.getItem('fadein_v4'); if(!raw)return;
+    const data=JSON.parse(raw);
+    if(data.lines&&data.lines.length>0&&data.lines.some(l=>l.tx)) document.getElementById('restore').classList.add('on');
+  }catch(e){}
+}
+function restoreScript(){
+  try{
+    const data=JSON.parse(localStorage.getItem('fadein_v4'));
+    if(data.title)document.getElementById('script-title').value=data.title;
+    if(data.notes)document.getElementById('notes-ta').value=data.notes;
+    if(data.titlePage)titlePageData=data.titlePage;
+    const ed=document.getElementById('editor'); ed.innerHTML='';
+    data.lines.forEach((l,i)=>{ const el=makeLine(l.t,''); el.innerHTML=l.tx; if(i===0){ el.classList.add('first-line'); el.dataset.ph=ROTATING_PH[0]; } ed.appendChild(el); });
+    const last=allLines().slice(-1)[0]; if(last) setCaretEnd(last);
+    runUpdate(); markSaved();
+  }catch(e){}
+  closeRestore();
+}
+function closeRestore(){ document.getElementById('restore').classList.remove('on'); }
+
+/* ─── FIX 5: TITLE PAGE — stored separately, prepended on export ─── */
+function openTitleModal(){
+  // Pre-fill from saved data
+  if(titlePageData){
+    document.getElementById('tp-t').value=titlePageData.title||'';
+    document.getElementById('tp-a').value=titlePageData.author||'';
+    document.getElementById('tp-b').value=titlePageData.based||'';
+    document.getElementById('tp-d').value=titlePageData.draft||'First Draft';
+    document.getElementById('tp-dt').value=titlePageData.date||'';
+    document.getElementById('tp-c').value=titlePageData.contact||'';
+  }
+  document.getElementById('title-ov').classList.add('on');
+}
+function saveTitlePage(){
+  titlePageData={
+    title:document.getElementById('tp-t').value||document.getElementById('script-title').value,
+    author:document.getElementById('tp-a').value,
+    based:document.getElementById('tp-b').value,
+    draft:document.getElementById('tp-d').value,
+    date:document.getElementById('tp-dt').value,
+    contact:document.getElementById('tp-c').value,
+  };
+  if(titlePageData.title) document.getElementById('script-title').value=titlePageData.title;
+  buildPrintTitlePage();
+  closeOverlay('title-ov');
+}
+
+function buildPrintTitlePage(){
+  const tp=document.getElementById('title-page-print');
+  if(!titlePageData){tp.style.display='none';tp.innerHTML='';return;}
+  const d=titlePageData;
+  tp.innerHTML=`
+    <div class="tp-title">${escHtml(d.title||'UNTITLED')}</div>
+    <div class="tp-by">Written by</div>
+    <div class="tp-author">${escHtml(d.author||'')}</div>
+    ${d.based?`<div class="tp-based">${escHtml(d.based)}</div>`:''}
+    <div class="tp-meta">
+      ${escHtml(d.draft||'')}${d.date?' — '+escHtml(d.date):''}<br>
+      ${escHtml(d.contact||'')}
+    </div>`;
+  // tp remains display:none in browser — only print CSS shows it
+}
+function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ─── EXPORT ─── */
+function buildTitlePageTxt(){
+  if(!titlePageData) return '';
+  const d=titlePageData;
+  const pad=n=>s=>s?' '.repeat(n)+s:'';
+  let out='';
+  out+='\n\n\n';
+  out+=' '.repeat(33)+(d.title||'UNTITLED').toUpperCase()+'\n\n';
+  out+=' '.repeat(38)+'Written by\n';
+  out+=' '.repeat(38)+(d.author||'')+'\n';
+  if(d.based) out+=' '.repeat(38)+d.based+'\n';
+  out+='\n\n\n\n';
+  out+=(d.draft||'')+(d.date?' — '+d.date:'')+'\n';
+  if(d.contact)out+=d.contact+'\n';
+  out+='\n\n'+'-'.repeat(60)+'\n\n\n';
+  return out;
+}
+
+function saveTxt(){
+  autoSave();
+  const title=document.getElementById('script-title').value||'SCREENPLAY';
+  let out = buildTitlePageTxt(); // FIX 5: title page first
+  out += allLines().map(l=>{
+    const tx=l.textContent.trim(); if(!tx)return '';
+    switch(l.dataset.t){
+      case 'sh': return'\n\n'+tx.toUpperCase();
+      case 'ac': return'\n'+tx;
+      case 'ch': return'\n\n'+' '.repeat(22)+tx.toUpperCase();
+      case 'pa': return' '.repeat(15)+tx;
+      case 'di': return' '.repeat(10)+tx;
+      case 'tr': return'\n'+' '.repeat(50)+tx.toUpperCase();
+      default: return tx;
+    }
+  }).join('\n');
+  const blob=new Blob([out],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=title.replace(/\s+/g,'_')+'.fountain'; a.click();
+}
+function printPDF(){
+  autoSave();
+  // FIX 5: ensure print title page is ready
+  buildPrintTitlePage();
+  window.print();
+}
+
+/* ─── THEME ─── */
+function toggleTheme(){ isDark=!isDark; document.body.classList.toggle('light',!isDark); document.getElementById('theme-btn').textContent=isDark?'☀ Light':'☾ Dark'; }
+
+/* ─── REVISION ─── */
+function toggleRevision(){ revMode=!revMode; const btn=document.getElementById('rev-btn'); btn.textContent=revMode?'Revision ●':'Revision'; btn.classList.toggle('active',revMode); if(!revMode)allLines().forEach(l=>l.classList.remove('revised')); }
+
+/* ─── FOCUS ─── */
+function toggleFocus(){ document.body.classList.toggle('focus'); const on=document.body.classList.contains('focus'); document.getElementById('foc-btn').textContent=on?'Exit Focus':'Focus'; document.getElementById('foc-btn').classList.toggle('active',on); setTimeout(syncToggles,0); }
+
+/* ─── FIND & REPLACE ─── */
+function openFind(){ document.getElementById('fp').classList.add('on'); setTimeout(()=>document.getElementById('f-q').focus(),50); }
+function closeFind(){ document.getElementById('fp').classList.remove('on'); document.getElementById('f-ct').textContent=''; fMatches=[]; fIdx=0; }
+function doFind(){
+  const q=document.getElementById('f-q').value.toLowerCase().trim(); fMatches=[];
+  if(!q){document.getElementById('f-ct').textContent='';return;}
+  allLines().forEach((l,i)=>{ const tx=l.textContent.toLowerCase(); let pos=0; while((pos=tx.indexOf(q,pos))!==-1){fMatches.push({li:i,start:pos,end:pos+q.length});pos+=q.length;} });
+  fIdx=0; document.getElementById('f-ct').textContent=fMatches.length+' match'+(fMatches.length!==1?'es':'');
+  if(fMatches.length)scrollToMatch();
+}
+function fNext(){ if(!fMatches.length)return; fIdx=(fIdx+1)%fMatches.length; scrollToMatch(); }
+function fPrev(){ if(!fMatches.length)return; fIdx=(fIdx-1+fMatches.length)%fMatches.length; scrollToMatch(); }
+function scrollToMatch(){ const m=fMatches[fIdx]; if(!m)return; const ls=allLines(); if(ls[m.li])ls[m.li].scrollIntoView({behavior:'smooth',block:'center'}); document.getElementById('f-ct').textContent=`${fIdx+1} / ${fMatches.length}`; }
+function replaceOne(){ const q=document.getElementById('f-q').value,r=document.getElementById('f-r').value; if(!q||!fMatches.length)return; const m=fMatches[fIdx],ls=allLines(),l=ls[m.li];if(!l)return; l.textContent=l.textContent.slice(0,m.start)+r+l.textContent.slice(m.end); doFind(); }
+function replaceAll(){ const q=document.getElementById('f-q').value,r=document.getElementById('f-r').value; if(!q)return; const rx=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'); allLines().forEach(l=>{l.textContent=l.textContent.replace(rx,r);}); doFind(); }
+
+/* ─── GUIDE & OVERLAYS ─── */
+function openGuide(){ document.getElementById('guide-ov').classList.add('on'); }
+function closeOverlay(id){ document.getElementById(id).classList.remove('on'); }
+document.querySelectorAll('.overlay').forEach(ov=>{ ov.addEventListener('click',e=>{ if(e.target===ov)ov.classList.remove('on'); }); });
+
+/* ─── TICKER ─── */
+function startTicker(){
+  const el=document.getElementById('ticker'); el.textContent=TIPS[0];
+  setInterval(()=>{ el.style.opacity='0'; setTimeout(()=>{ tipIdx=(tipIdx+1)%TIPS.length; el.textContent=TIPS[tipIdx]; el.style.opacity='1'; },420); },7000);
+}
+
+window.addEventListener('beforeunload',autoSave);
+window.addEventListener('resize',syncToggles);
+setTimeout(runUpdate,600);
+</script>
+</body>
+</html>
